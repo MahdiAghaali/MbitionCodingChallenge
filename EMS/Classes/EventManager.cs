@@ -8,6 +8,9 @@ namespace EventManagementSystem
         private List<Event> events = new List<Event>();
         private int nextEventId = 1;
 
+        /// <summary>
+        /// Creates and event based on the user inputs
+        /// </summary>
         public void CreateEvent()
         {
             Console.Write("Enter Event Name: ");
@@ -17,7 +20,6 @@ namespace EventManagementSystem
             {
                 Console.Write("Enter Event Date (yyyy-mm-dd): ");
                 string dateInput = Console.ReadLine();
-
                 if (DateTime.TryParse(dateInput, out date))
                 {
                     break; // Exit loop if date is valid
@@ -34,6 +36,9 @@ namespace EventManagementSystem
             Console.WriteLine("Event added successfully!\n");
         }
 
+        /// <summary>
+        /// Lists all of the events, then user can select an event to see the details of event and modify or delete it if needed.
+        /// </summary>
         public void ViewEvents()
         {
             Console.Clear();
@@ -68,6 +73,10 @@ namespace EventManagementSystem
             }
         }
 
+        /// <summary>
+        /// Displays details of selected event, the user can also choose to edit or delete the event
+        /// </summary>
+        /// <param name="ev">Event Object</param>
         private void ViewOrEditEvent(Event ev)
         {
             Console.Clear();
@@ -98,6 +107,12 @@ namespace EventManagementSystem
             }
         }
 
+        /// <summary>
+        /// Has two functionalities 
+        /// 1- an event can be passed to it as args by other methods to be edited
+        /// 2- if no event is passed as args the user should type in an event ID to edit
+        /// </summary>
+        /// <param name="ev"></param>
         public void EditEvent(Event ev = null)
         {
             if (ev == null)
@@ -133,6 +148,12 @@ namespace EventManagementSystem
             Console.WriteLine("Event updated successfully!\n");
         }
 
+        /// <summary>
+        /// Has two functionalities 
+        /// 1- an event can be passed as agrs to be deleted
+        /// 2- if no arguments are passed the user can type an ID to delete an event
+        /// </summary>
+        /// <param name="ev"></param>
         public void DeleteEvent(Event ev = null)
         {
             if (ev == null)
