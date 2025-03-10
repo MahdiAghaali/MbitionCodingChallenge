@@ -12,6 +12,7 @@ namespace EventManagementSystem
                 Console.WriteLine("1. Create a new Event");
                 Console.WriteLine("2. View all Events");
                 Console.WriteLine("3. Delete an Event");
+                Console.WriteLine("4. Modify an Event");
                 Console.WriteLine("0. Exit");
                 Console.Write("Choose an option: ");
 
@@ -20,6 +21,7 @@ namespace EventManagementSystem
                     case "1": manager.CreateEvent(); break;
                     case "2": manager.ViewEvents(); break;
                     case "3": manager.DeleteEvent(); break;
+                    case "4": manager.EditEvent(); break;
                     case "0": return;
                     default: 
                     {   

@@ -48,6 +48,32 @@ namespace EventManagementSystem
             }
         }
 
+        public void EditEvent()
+        {
+            Console.Write("Enter Event ID to edit: ");
+            int id = int.Parse(Console.ReadLine());
+            Event ev = events.Find(e => e.Id == id);
+            if (ev != null)
+            {
+                Console.Write("Enter New Name (Leave blank to keep unchanged): ");
+                string name = Console.ReadLine();
+                Console.Write("Enter New Date (yyyy-mm-dd, Leave blank to keep unchanged): ");
+                string dateInput = Console.ReadLine();
+                Console.Write("Enter New Description (Leave blank to keep unchanged): ");
+                string description = Console.ReadLine();
+
+                if (!string.IsNullOrEmpty(name)) ev.Name = name;
+                if (!string.IsNullOrEmpty(dateInput)) ev.Date = DateTime.Parse(dateInput);
+                if (!string.IsNullOrEmpty(description)) ev.Description = description;
+
+                Console.WriteLine("Event updated successfully!\n");
+            }
+            else
+            {
+                Console.WriteLine("Event not found!\n");
+            }
+        }
+
         public void DeleteEvent()
         {
             Console.Write("Enter Event ID to delete: ");
