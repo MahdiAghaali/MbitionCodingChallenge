@@ -1,6 +1,7 @@
 # MbitionCodingChallenge
 The goal of this challenge is to create an *Event Management System* where users can manage events.
 This project was made using C# and dotnet.
+You can watch this [Demo](https://www.loom.com/share/b2c70253ce564f7c95eeb70787d358c5) to get an overview of what I have done.
 to test this project make sure you have a compiler compatible with C# code and/or have .net SDK installed
 
 then clone this project
