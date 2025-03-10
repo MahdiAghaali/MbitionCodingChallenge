@@ -9,15 +9,15 @@ namespace EventManagementSystem
             while (true)
             {
                 Console.WriteLine("Event Management System");
-                Console.WriteLine("1. Add Event");
-                Console.WriteLine("2. View Events");
+                Console.WriteLine("1. Create a new Event");
+                Console.WriteLine("2. View all Events");
                 Console.WriteLine("0. Exit");
                 Console.Write("Choose an option: ");
 
                 switch (Console.ReadLine())
                 {
                     case "1": manager.CreateEvent(); break;
-                    // case "2": manager.ViewEvents(); break;
+                    case "2": manager.ViewEvents(); break;
                     case "0": return;
                     default: 
                     {   

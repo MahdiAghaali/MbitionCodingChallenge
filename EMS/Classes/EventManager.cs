@@ -34,5 +34,19 @@ namespace EventManagementSystem
             Console.WriteLine("Event added successfully!\n");
         }
 
+        public void ViewEvents()
+        {
+            if (events.Count == 0)
+            {
+                Console.Clear();
+                Console.WriteLine("No events available.\n");
+                return;
+            }
+            foreach (var ev in events)
+            {
+                Console.Clear();
+                Console.WriteLine($"ID: {ev.Id}, Name: {ev.Name}, Date: {ev.Date:yyyy-MM-dd}, Description: {ev.Description}\n");
+            }
+        }
     }
 }
