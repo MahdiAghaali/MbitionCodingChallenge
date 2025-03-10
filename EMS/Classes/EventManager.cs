@@ -15,6 +15,8 @@ namespace EventManagementSystem
         {
             Console.Write("Enter Event Name: ");
             string name = Console.ReadLine();
+            Console.Write("Enter Location (optional, press Enter to skip): ");
+            string location = Console.ReadLine();
             DateTime date;
             while (true)
             {
@@ -31,8 +33,14 @@ namespace EventManagementSystem
             }
             Console.Write("Enter Description: ");
             string description = Console.ReadLine();
-
-            events.Add(new Event { Id = nextEventId++, Name = name, Date = date, Description = description });
+            events.Add(new Event
+            {
+                Id = nextEventId++,
+                Name = name,
+                Date = date,
+                Description = description,
+                Location = string.IsNullOrWhiteSpace(location) ? "Not specified" : location
+            });
             Console.WriteLine("Event added successfully!\n");
         }
 
@@ -84,6 +92,7 @@ namespace EventManagementSystem
             Console.WriteLine($"ID: {ev.Id}");
             Console.WriteLine($"Name: {ev.Name}");
             Console.WriteLine($"Date: {ev.Date:yyyy-MM-dd}");
+            Console.WriteLine($"Location: {ev.Location}");
             Console.WriteLine($"Description: {ev.Description}");
             Console.WriteLine("\nOptions:");
             Console.WriteLine("1. Edit Event");
@@ -134,6 +143,10 @@ namespace EventManagementSystem
             Console.Write("Enter new name (leave empty to keep current): ");
             string newName = Console.ReadLine();
             if (!string.IsNullOrWhiteSpace(newName)) ev.Name = newName;
+
+            Console.Write("Enter new Location (leave empty to keep current): ");
+            string newLocation = Console.ReadLine();
+            if (!string.IsNullOrWhiteSpace(newLocation)) ev.Location = newLocation;
 
             Console.Write("Enter new date (yyyy-mm-dd, leave empty to keep current): ");
             string newDate = Console.ReadLine();
