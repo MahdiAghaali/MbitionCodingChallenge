@@ -55,48 +55,32 @@ namespace EventManagementSystem
                 Console.WriteLine("No events available.\n");
                 return;
             }
-            Console.WriteLine("\n-------------------------------------------------------------------------------------");
-            Console.WriteLine("| {0,-5} | {1,-20} | {2,-12} | {3,-25} | {4,-20} |", "ID", "Name", "Date", "Description", "Location");
-            Console.WriteLine("-------------------------------------------------------------------------------------");
-            foreach (var ev in events)
-            {
-                {
-                    Console.WriteLine("| {0,-5} | {1,-20} | {2,-12} | {3,-25} | {4,-20} |",
-                        ev.Id,
-                        ev.Name.Length > 20 ? ev.Name.Substring(0, 17) + "..." : ev.Name,
-                        ev.Date.ToString("yyyy-MM-dd"),
-                        ev.Description.Length > 25 ? ev.Description.Substring(0, 22) + "..." : ev.Description,
-                        ev.Location.Length > 20 ? ev.Location.Substring(0, 17) + "..." : ev.Location);
-                }
-            }
-            Console.Write("Enter Event ID to View Details or Edit (or press Enter to go back): ");
-            string input = Console.ReadLine();
-            if (string.IsNullOrWhiteSpace(input)) return;
-
-            if (int.TryParse(input, out int eventId))
-            {
-                Event selectedEvent = events.FirstOrDefault(e => e.Id == eventId);
-                if (selectedEvent != null)
-                {
-                    ViewOrEditEvent(selectedEvent);
-                }
-                else
-                {
-                    Console.WriteLine("Invalid ID! No such event found.\n");
-                }
-            }
-            else
-            {
-                Console.WriteLine("Invalid input! Please enter a valid event ID.\n");
-            }
+            ShowList(events);
+            ViewOrEditEvent();
         }
 
         /// <summary>
         /// Displays details of selected event, the user can also choose to edit or delete the event
         /// </summary>
         /// <param name="ev">Event Object</param>
-        private void ViewOrEditEvent(Event ev)
+        private void ViewOrEditEvent()
         {
+            Event ev = new Event();
+            Console.Write("Enter Event ID to view/edit (or press Enter to cancel): ");
+            string input = Console.ReadLine();
+            if (string.IsNullOrWhiteSpace(input)) return;
+            if (int.TryParse(input, out int eventId))
+            {
+                Event selectedEvent = events.FirstOrDefault(e => e.Id == eventId);
+                if (selectedEvent != null)
+                {
+                    ev = selectedEvent;
+                }
+                else
+                {
+                    Console.WriteLine("Invalid ID! No such event found.\n");
+                }
+            }
             Console.Clear();
             Console.WriteLine("\nEvent Details:");
             Console.WriteLine($"ID: {ev.Id}");
@@ -210,7 +194,85 @@ namespace EventManagementSystem
 
         public void FuzzySearchEvents()
         {
-            Console.WriteLine("This fuzzy search feature is not implemented yet! \n");
+            Console.Write("Enter search text: ");
+            string query = Console.ReadLine()?.ToLower();
+            if (string.IsNullOrWhiteSpace(query))
+            {
+                Console.WriteLine("Search text cannot be empty!\n");
+                return;
+            }
+
+            var rankedEvents = events
+                .Select(ev => new
+                {
+                    Event = ev,
+                    Score = GetSimilarityScore(query, ev.Name) +
+                            GetSimilarityScore(query, ev.Description) +
+                            GetSimilarityScore(query, ev.Location)
+                })
+                .OrderBy(e => e.Score)
+                .Take(3)
+                .ToList();
+
+            if (rankedEvents.Count == 0 || rankedEvents.All(e => e.Score == 0))
+            {
+                Console.WriteLine("No matching events found.\n");
+                return;
+            }
+
+            List<Event> listOfEvents = rankedEvents.Select(e => e.Event).ToList();
+
+            Console.WriteLine("\nTop matching events:");
+            ShowList(listOfEvents);
+            ViewOrEditEvent();
+        }
+
+        private int GetSimilarityScore(string source, string target)
+        {
+            if (string.IsNullOrEmpty(source) || string.IsNullOrEmpty(target))
+                return 0;
+
+            int m = source.Length;
+            int n = target.Length;
+            int[,] dp = new int[m + 1, n + 1];
+
+            for (int i = 0; i <= m; i++)
+                dp[i, 0] = i;
+
+            for (int j = 0; j <= n; j++)
+                dp[0, j] = j;
+
+            for (int i = 1; i <= m; i++)
+            {
+                for (int j = 1; j <= n; j++)
+                {
+                    int cost = (source[i - 1] == target[j - 1]) ? 0 : 1;
+                    dp[i, j] = Math.Min(
+                        Math.Min(dp[i - 1, j] + 1, dp[i, j - 1] + 1),
+                        dp[i - 1, j - 1] + cost
+                    );
+                }
+            }
+
+            return dp[m, n]; 
+        }
+
+        private void ShowList (List<Event> events) 
+        {
+            Console.WriteLine("\n-------------------------------------------------------------------------------------");
+            Console.WriteLine("| {0,-5} | {1,-20} | {2,-12} | {3,-25} | {4,-20} |", "ID", "Name", "Date", "Description", "Location");
+            Console.WriteLine("-------------------------------------------------------------------------------------");
+            foreach (var ev in events)
+            {
+                {
+                    Console.WriteLine("| {0,-5} | {1,-20} | {2,-12} | {3,-25} | {4,-20} |",
+                        ev.Id,
+                        ev.Name.Length > 20 ? ev.Name.Substring(0, 17) + "..." : ev.Name,
+                        ev.Date.ToString("yyyy-MM-dd"),
+                        ev.Description.Length > 25 ? ev.Description.Substring(0, 22) + "..." : ev.Description,
+                        ev.Location.Length > 20 ? ev.Location.Substring(0, 17) + "..." : ev.Location);
+                }
+            }
         }
     }
 }
