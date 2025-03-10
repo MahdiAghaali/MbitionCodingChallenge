@@ -208,5 +208,9 @@ namespace EventManagementSystem
             }
         }
 
+        public void FuzzySearchEvents()
+        {
+            Console.WriteLine("This fuzzy search feature is not implemented yet! \n");
+        }
     }
 }
