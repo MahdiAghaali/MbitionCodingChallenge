@@ -1,2 +1,12 @@
-﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
+﻿using System;
+namespace EventManagementSystem
+{
+    class Program
+    {
+        static void Main()
+        {
+            EventManager manager = new EventManager();
+            manager.writeHello();
+        }
+    }
+}
