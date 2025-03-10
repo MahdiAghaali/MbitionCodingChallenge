@@ -55,9 +55,19 @@ namespace EventManagementSystem
                 Console.WriteLine("No events available.\n");
                 return;
             }
+            Console.WriteLine("\n-------------------------------------------------------------------------------------");
+            Console.WriteLine("| {0,-5} | {1,-20} | {2,-12} | {3,-25} | {4,-20} |", "ID", "Name", "Date", "Description", "Location");
+            Console.WriteLine("-------------------------------------------------------------------------------------");
             foreach (var ev in events)
             {
-                Console.WriteLine($"ID: {ev.Id}, Name: {ev.Name}, Date: {ev.Date:yyyy-MM-dd}, Description: {ev.Description}\n");
+                {
+                    Console.WriteLine("| {0,-5} | {1,-20} | {2,-12} | {3,-25} | {4,-20} |",
+                        ev.Id,
+                        ev.Name.Length > 20 ? ev.Name.Substring(0, 17) + "..." : ev.Name,
+                        ev.Date.ToString("yyyy-MM-dd"),
+                        ev.Description.Length > 25 ? ev.Description.Substring(0, 22) + "..." : ev.Description,
+                        ev.Location.Length > 20 ? ev.Location.Substring(0, 17) + "..." : ev.Location);
+                }
             }
             Console.Write("Enter Event ID to View Details or Edit (or press Enter to go back): ");
             string input = Console.ReadLine();
