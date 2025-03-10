@@ -36,17 +36,33 @@ namespace EventManagementSystem
 
         public void ViewEvents()
         {
+            Console.Clear();
             if (events.Count == 0)
             {
-                Console.Clear();
                 Console.WriteLine("No events available.\n");
                 return;
             }
             foreach (var ev in events)
             {
-                Console.Clear();
                 Console.WriteLine($"ID: {ev.Id}, Name: {ev.Name}, Date: {ev.Date:yyyy-MM-dd}, Description: {ev.Description}\n");
             }
         }
+
+        public void DeleteEvent()
+        {
+            Console.Write("Enter Event ID to delete: ");
+            int id = int.Parse(Console.ReadLine());
+            Event ev = events.Find(e => e.Id == id);
+            if (ev != null)
+            {
+                events.Remove(ev);
+                Console.WriteLine("Event deleted successfully!\n");
+            }
+            else
+            {
+                Console.WriteLine("Event not found!\n");
+            }
+        }
+
     }
 }
