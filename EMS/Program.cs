@@ -6,7 +6,7 @@ namespace EventManagementSystem
         static void Main()
         {
             EventManager manager = new EventManager();
-            manager.writeHello();
+            manager.CreateEvent();
         }
     }
 }
