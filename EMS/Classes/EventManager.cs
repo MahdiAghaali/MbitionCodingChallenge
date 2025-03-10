@@ -12,8 +12,21 @@ namespace EventManagementSystem
         {
             Console.Write("Enter Event Name: ");
             string name = Console.ReadLine();
-            Console.Write("Enter Event Date (yyyy-mm-dd): ");
-            DateTime date = DateTime.Parse(Console.ReadLine());
+            DateTime date;
+            while (true)
+            {
+                Console.Write("Enter Event Date (yyyy-mm-dd): ");
+                string dateInput = Console.ReadLine();
+
+                if (DateTime.TryParse(dateInput, out date))
+                {
+                    break; // Exit loop if date is valid
+                }
+                else
+                {
+                    Console.WriteLine("Invalid date format! Please enter a valid date (yyyy-mm-dd).");
+                }
+            }
             Console.Write("Enter Description: ");
             string description = Console.ReadLine();
 
